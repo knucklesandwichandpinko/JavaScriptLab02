@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Lab 2 | COMP1073 Client-Side JavaScript</title>
+    <!-- <link href="styles.css" rel="stylesheet" /> -->
+    <style>
+        html {
+            font-family: sans-serif;
+            font-size: 200%;
+            background-color: rgb(0, 0, 0);
+            color: rgb(255, 255, 255);
+            transition-property: background-color;
+            transition-duration: 0.25s;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Lab 2</h1>
+    <p>
+        This script will enable the user to adjust the below range input
+        elements to modify the
+        <abbr title="Red, Green, Blue">RGB</abbr> values of the
+        <code>background-color</code> CSS property of the HTML element.
+    </p>
+    <label for="red">Red</label>
+    <input id="red" type="range" min="0" max="255" value="0" />
+    <label for="green">Green</label>
+    <input id="green" type="range" min="0" max="255" value="0" />
+    <label for="blue">Blue</label>
+    <input id="blue" type="range" min="0" max="255" value="0" />
+    <script>
+        /* Let's set some initial stuff up */
+    
+        // I'm going to find the page's background
+        var myBackground = document.querySelector("html");
+    
+        // I'm going to locate all the sliders on the page
+        var mySliders = document.getElementsByTagName("input");
+    
+        // I'll keep track of my background color using these RGB values
+        var myRgb = [0, 0, 0];
+    
+        /* This function handles what happens when you move the sliders */
+        function updateBackgroundColor() {
+    
+            // I'll make a copy of my current RGB values
+            var newRgb = [myRgb[0], myRgb[1], myRgb[2]];
+    
+            // Depending on which slider you moved, I'll update the corresponding RGB channel
+            switch (this.id) {
+                case "red":
+                    newRgb[0] = parseInt(this.value);
+                    break;
+                case "green":
+                    newRgb[1] = parseInt(this.value);
+                    break;
+                case "blue":
+                    newRgb[2] = parseInt(this.value);
+                    break;
+            }
+    
+            // Now, I'll update the background color using the new RGB values
+            myBackground.style.backgroundColor = createColorString(newRgb);
+    
+            // Finally, I'll keep track of the updated RGB values
+            myRgb = newRgb;
+        }
+    
+        /* This function creates a CSS-formatted color string from RGB values */
+        function createColorString(rgbArray) {
+    
+            // I'll build a string that represents the RGB values
+            var newColor = "rgb(" + rgbArray[0] + "," + rgbArray[1] + "," + rgbArray[2] + ")";
+    
+            // I'll give you the string I built
+            return newColor;
+        }
+    
+        /* Now, I'll make sure the sliders listen to you */
+        for (var i = 0; i < mySliders.length; i++) {
+            mySliders[i].addEventListener("input", updateBackgroundColor);
+        }
+    
+        // Awesome ! yay When the page loads, I'll set the initial background color
+        myBackground.style.backgroundColor = createColorString(myRgb);
+    </script>
+    
+    
+</body>
+
+</html>
